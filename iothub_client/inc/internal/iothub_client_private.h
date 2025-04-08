@@ -16,9 +16,7 @@
 #include "iothub_client_core_common.h"
 #include "iothub_client_core_ll.h"
 
-#ifdef USE_EDGE_MODULES
 #include "internal/iothub_client_edge.h"
-#endif
 
 #ifdef __cplusplus
 extern "C"
@@ -36,11 +34,9 @@ MOCKABLE_FUNCTION(, IOTHUB_CLIENT_RESULT, IoTHubClientCore_LL_SetInputMessageCal
 MOCKABLE_FUNCTION(, int, IoTHubClientCore_LL_GetTransportCallbacks, TRANSPORT_CALLBACKS_INFO*, transport_cb);
 MOCKABLE_FUNCTION(, IOTHUB_CLIENT_RESULT, IoTHubClientCore_LL_ParseMethodToCommand, const char*, method_name, char**, component_name, const char**, command_name);
 
-#ifdef USE_EDGE_MODULES
 /* (Should be replaced after iothub_client refactor)*/
 MOCKABLE_FUNCTION(, IOTHUB_CLIENT_EDGE_HANDLE, IoTHubClientCore_LL_GetEdgeHandle, IOTHUB_CLIENT_CORE_LL_HANDLE, iotHubClientHandle);
 MOCKABLE_FUNCTION(, IOTHUB_CLIENT_RESULT, IoTHubClientCore_LL_GenericMethodInvoke, IOTHUB_CLIENT_CORE_LL_HANDLE, iotHubClientHandle, const char*, deviceId, const char*, moduleId, const char*, methodName, const char*, methodPayload, unsigned int, timeout, int*, responseStatus, unsigned char**, responsePayload, size_t*, responsePayloadSize);
-#endif
 
 typedef struct IOTHUB_MESSAGE_LIST_TAG
 {

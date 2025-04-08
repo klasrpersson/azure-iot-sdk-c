@@ -1077,7 +1077,7 @@ static IOTHUB_CLIENT_CORE_INSTANCE* create_iothub_instance(CREATE_HUB_INSTANCE_T
                     result->IoTHubClientLLHandle = NULL;
 #endif
                 }
-#ifdef USE_EDGE_MODULES
+
                 else if (create_hub_instance_type == CREATE_HUB_INSTANCE_FROM_EDGE_ENVIRONMENT)
                 {
                     result->LockHandle = Lock_Init();
@@ -1091,7 +1091,7 @@ static IOTHUB_CLIENT_CORE_INSTANCE* create_iothub_instance(CREATE_HUB_INSTANCE_T
                         result->IoTHubClientLLHandle = IoTHubClientCore_LL_CreateFromEnvironment(protocol);
                     }
                 }
-#endif
+
                 else
                 {
                     result->LockHandle = Lock_Init();
@@ -1212,12 +1212,12 @@ IOTHUB_CLIENT_CORE_HANDLE IoTHubClientCore_CreateFromDeviceAuth(const char* ioth
     return result;
 }
 
-#ifdef USE_EDGE_MODULES
+
 IOTHUB_CLIENT_CORE_HANDLE IoTHubClientCore_CreateFromEnvironment(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol)
 {
     return create_iothub_instance(CREATE_HUB_INSTANCE_FROM_EDGE_ENVIRONMENT, NULL, NULL, NULL, protocol, NULL, NULL);
 }
-#endif
+
 
 
 void IoTHubClientCore_Destroy(IOTHUB_CLIENT_CORE_HANDLE iotHubClientHandle)
@@ -2220,7 +2220,6 @@ IOTHUB_CLIENT_RESULT IoTHubClientCore_DeviceMethodResponse(IOTHUB_CLIENT_CORE_HA
     return result;
 }
 
-#if !defined(DONT_USE_UPLOADTOBLOB) || defined(USE_EDGE_MODULES)
 static IOTHUB_CLIENT_RESULT startHttpWorkerThread(IOTHUB_CLIENT_CORE_HANDLE iotHubClientHandle, HTTPWORKER_THREAD_INFO* threadInfo, THREAD_START_FUNC httpWorkerThreadFunc)
 {
     IOTHUB_CLIENT_RESULT result;
@@ -2282,8 +2281,6 @@ static int markThreadReadyToBeGarbageCollected(HTTPWORKER_THREAD_INFO* threadInf
     ThreadAPI_Exit(0);
     return 0;
 }
-
-#endif // !defined(DONT_USE_UPLOADTOBLOB) || defined(USE_EDGE_MODULES)
 
 #if !defined(DONT_USE_UPLOADTOBLOB)
 static HTTPWORKER_THREAD_INFO* allocateUploadToBlob(const char* destinationFileName, IOTHUB_CLIENT_CORE_HANDLE iotHubClientHandle, void* context)
@@ -2666,7 +2663,7 @@ IOTHUB_CLIENT_RESULT IoTHubClientCore_SetInputMessageCallback(IOTHUB_CLIENT_CORE
     return result;
 }
 
-#ifdef USE_EDGE_MODULES
+
 
 HTTPWORKER_THREAD_INFO * allocateMethodInvoke(IOTHUB_CLIENT_CORE_HANDLE iotHubClientHandle, const char* deviceId, const char* moduleId, const char* methodName, const char* methodPayload, unsigned int timeout, IOTHUB_METHOD_INVOKE_CALLBACK methodInvokeCallback, void* context)
 {
@@ -2768,7 +2765,7 @@ IOTHUB_CLIENT_RESULT IoTHubClientCore_GenericMethodInvoke(IOTHUB_CLIENT_CORE_HAN
     }
     return result;
 }
-#endif /* USE_EDGE_MODULES */
+
 
 IOTHUB_CLIENT_RESULT IoTHubClientCore_SendMessageDisposition(IOTHUB_CLIENT_CORE_HANDLE iotHubClientHandle, IOTHUB_MESSAGE_HANDLE message, IOTHUBMESSAGE_DISPOSITION_RESULT disposition)
 {

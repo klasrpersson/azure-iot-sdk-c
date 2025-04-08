@@ -93,7 +93,6 @@ IOTHUB_CLIENT_RESULT IoTHubModuleClient_SendMessageDisposition(IOTHUB_MODULE_CLI
     return IoTHubClientCore_SendMessageDisposition((IOTHUB_CLIENT_CORE_HANDLE)iotHubModuleHandle, message, disposition);
 }
 
-#ifdef USE_EDGE_MODULES
 
 IOTHUB_MODULE_CLIENT_HANDLE IoTHubModuleClient_CreateFromEnvironment(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol)
 {
@@ -131,8 +130,6 @@ IOTHUB_CLIENT_RESULT IoTHubModuleClient_ModuleMethodInvokeAsync(IOTHUB_MODULE_CL
     }
     return result;
 }
-
-#endif /*USE_EDGE_MODULES*/
 
 IOTHUB_CLIENT_RESULT IoTHubModuleClient_SendTelemetryAsync(IOTHUB_MODULE_CLIENT_HANDLE iotHubModuleClientHandle, IOTHUB_MESSAGE_HANDLE telemetryMessageHandle, IOTHUB_CLIENT_TELEMETRY_CALLBACK telemetryConfirmationCallback, void* userContextCallback)
 {

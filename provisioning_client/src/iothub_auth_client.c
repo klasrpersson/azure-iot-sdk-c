@@ -458,7 +458,7 @@ CREDENTIAL_RESULT* iothub_device_auth_generate_credentials(IOTHUB_SECURITY_HANDL
     return result;
 }
 
-#ifdef USE_EDGE_MODULES
+
 char* iothub_device_auth_get_trust_bundle(IOTHUB_SECURITY_HANDLE handle)
 {
     if (handle->hsm_client_get_trust_bundle == NULL)
@@ -468,4 +468,3 @@ char* iothub_device_auth_get_trust_bundle(IOTHUB_SECURITY_HANDLE handle)
     }
     return handle->hsm_client_get_trust_bundle(handle->hsm_client_handle);
 }
-#endif

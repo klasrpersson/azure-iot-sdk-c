@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifndef USE_EDGE_MODULES
-#error "tryping to compile iothubclient_edge_ut.c while the symbol USE_EDGE_MODULES is not defined"
-#else
-
 #ifdef __cplusplus
 #include <cstdlib>
 #include <cstddef>
@@ -1054,4 +1050,4 @@ TEST_FUNCTION(IoTHubClient_Edge_ModuleMethodInvoke_FAIL)
 }
 
 END_TEST_SUITE(iothubclient_edge_ut)
-#endif /* USE_EDGE_MODULES */
+

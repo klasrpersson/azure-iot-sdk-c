@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifndef USE_EDGE_MODULES
-//tryping to compile iothub_client_edge.c while the symbol USE_EDGE_MODULES is not defined
-#else
-
 #include "azure_c_shared_utility/gballoc.h"
 #include "azure_c_shared_utility/xlogging.h"
 #include "azure_c_shared_utility/constbuffer.h"
@@ -537,4 +533,4 @@ IOTHUB_CLIENT_RESULT IoTHubClient_Edge_ModuleMethodInvoke(IOTHUB_CLIENT_EDGE_HAN
     }
     return result;
 }
-#endif /* USE_EDGE_MODULES */
+

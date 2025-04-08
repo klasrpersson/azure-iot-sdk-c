@@ -171,13 +171,11 @@ endif()
 set(use_prov_client_core OFF)
 
 # Enable IoT SDK to act as a module for Edge
-if(${use_edge_modules})
     set(use_prov_client_core ON)
     set(use_http ON)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_EDGE_MODULES")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUSE_EDGE_MODULES")
     set(hsm_type_edge_module ON)
-endif()
 
 # Set Provisioning Information. This will also setup appropriate HSM
 if (${use_prov_client})

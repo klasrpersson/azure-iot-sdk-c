@@ -60,9 +60,8 @@ extern "C"
      MOCKABLE_FUNCTION(, IOTHUB_CLIENT_RESULT, IoTHubClientCore_LL_NotifyUploadCompletion, IOTHUB_CLIENT_CORE_LL_HANDLE, iotHubClientHandle, const char*, uploadCorrelationId, bool, isSuccess, int, responseCode, const char*, responseMessage);
 #endif /*DONT_USE_UPLOADTOBLOB*/
 
-#ifdef USE_EDGE_MODULES
+
     MOCKABLE_FUNCTION(, IOTHUB_CLIENT_CORE_LL_HANDLE, IoTHubClientCore_LL_CreateFromEnvironment, IOTHUB_CLIENT_TRANSPORT_PROVIDER, protocol);
-#endif
 #ifdef __cplusplus
 }
 #endif

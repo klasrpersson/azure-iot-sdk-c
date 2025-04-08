@@ -51,9 +51,7 @@ MOCKABLE_FUNCTION(, int, IoTHubClient_Auth_Set_SasToken_Expiry, IOTHUB_AUTHORIZA
 MOCKABLE_FUNCTION(, uint64_t, IoTHubClient_Auth_Get_SasToken_Expiry, IOTHUB_AUTHORIZATION_HANDLE, handle);
 
 
-#ifdef USE_EDGE_MODULES
 MOCKABLE_FUNCTION(, char*, IoTHubClient_Auth_Get_TrustBundle, IOTHUB_AUTHORIZATION_HANDLE, handle, const char*, certificate_file_name);
-#endif
 
 
 #ifdef __cplusplus

@@ -588,10 +588,9 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_GLOBAL_MOCK_RETURN(IoTHubClientCore_LL_UploadToBlob, IOTHUB_CLIENT_OK);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClientCore_LL_UploadToBlob, IOTHUB_CLIENT_ERROR);
 #endif
-#ifdef USE_EDGE_MODULES
+
     REGISTER_GLOBAL_MOCK_RETURN(IoTHubClientCore_LL_CreateFromEnvironment, TEST_IOTHUB_CLIENT_CORE_LL_HANDLE);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClientCore_LL_CreateFromEnvironment, NULL);
-#endif
 
     REGISTER_GLOBAL_MOCK_RETURN(get_time, (time_t)TEST_TIME_VALUE);
 
@@ -668,10 +667,9 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_GLOBAL_MOCK_RETURN(IoTHubClientCore_LL_SendMessageDisposition, IOTHUB_CLIENT_OK);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClientCore_LL_SendMessageDisposition, IOTHUB_CLIENT_ERROR);
 
-#ifdef USE_EDGE_MODULES
+
     REGISTER_GLOBAL_MOCK_HOOK(IoTHubClientCore_LL_GenericMethodInvoke,  my_IoTHubClientCore_LL_GenericMethodInvoke);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClientCore_LL_GenericMethodInvoke, IOTHUB_CLIENT_ERROR);
-#endif
 
     REGISTER_GLOBAL_MOCK_RETURN(IoTHubClientCore_LL_ParseMethodToCommand, IOTHUB_CLIENT_OK);
 
@@ -760,11 +758,10 @@ static void setup_create_iothub_instance(CREATE_IOTHUB_TEST_TYPE create_iothub_t
             STRICT_EXPECTED_CALL(IoTHubClientCore_LL_CreateFromConnectionString(TEST_CONNECTION_STRING, TEST_TRANSPORT_PROVIDER));
             break;
 
-#ifdef USE_EDGE_MODULES
+
         case CREATE_IOTHUB_TEST_CREATE_FROM_ENVIRONMENT:
             STRICT_EXPECTED_CALL(IoTHubClientCore_LL_CreateFromEnvironment(TEST_TRANSPORT_PROVIDER));
             break;
-#endif
 
         default:
             ASSERT_FAIL("Unknown enum type");
@@ -1225,7 +1222,7 @@ TEST_FUNCTION(IoTHubClientCore_CreateFromDeviceAuth_fail)
 }
 #endif
 
-#ifdef USE_EDGE_MODULES
+
 TEST_FUNCTION(IoTHubClientCore_CreateFromEnvironment_succeed)
 {
     // arrange
@@ -1270,7 +1267,7 @@ TEST_FUNCTION(IoTHubClientCore_CreateFromEnvironment_fail)
     // cleanup
     umock_c_negative_tests_deinit();
 }
-#endif // USE_EDGE_MODULES
+
 
 
 TEST_FUNCTION(IoTHubClientCore_Destroy_iothub_client_handle_NULL_fail)
@@ -4742,7 +4739,7 @@ TEST_FUNCTION(IoTHubClient_SetInputMessageCallback_fail)
     IoTHubClientCore_Destroy(iothub_handle);
 }
 
-#ifdef USE_EDGE_MODULES
+
 typedef enum METHOD_INVOKE_TEST_THREAD_TAG
 {
     METHOD_INVOKE_TEST_MOCK_CREATE_THREAD,
@@ -4977,7 +4974,6 @@ TEST_FUNCTION(IoTHubClientCore_GenericMethodInvoke_fail)
     umock_c_reset_all_calls();
     IoTHubClientCore_Destroy(iothub_handle);
 }
-#endif
 
 TEST_FUNCTION(IoTHubClientCore_SendMessageDisposition_succeed)
 {

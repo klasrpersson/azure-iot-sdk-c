@@ -32,11 +32,9 @@
 #include "internal/iothub_client_ll_uploadtoblob.h"
 #endif
 
-#ifdef USE_EDGE_MODULES
 #include "azure_c_shared_utility/envvariable.h"
 #include "azure_prov_client/iothub_security_factory.h"
 #include "internal/iothub_client_edge.h"
-#endif
 
 #define LOG_ERROR_RESULT LogError("result = %s", MU_ENUM_TO_STRING(IOTHUB_CLIENT_RESULT, result));
 #define INDEFINITE_TIME ((time_t)(-1))
@@ -128,9 +126,8 @@ typedef struct IOTHUB_CLIENT_CORE_LL_HANDLE_DATA_TAG
 #ifndef DONT_USE_UPLOADTOBLOB
     IOTHUB_CLIENT_LL_UPLOADTOBLOB_HANDLE uploadToBlobHandle;
 #endif
-#ifdef USE_EDGE_MODULES
+
     IOTHUB_CLIENT_EDGE_HANDLE methodHandle;
-#endif
     uint32_t data_msg_id;
     bool complete_twin_update_encountered;
     IOTHUB_AUTHORIZATION_HANDLE authorization_module;
@@ -153,7 +150,6 @@ static const char PROVISIONING_ACCEPTABLE_VALUE[] = "true";
 
 static const int DEFAULT_COMMAND_RESPONSE_STATUS_CODE = 500;
 
-#ifdef USE_EDGE_MODULES
 /*The following section should be moved to iothub_module_client_ll.c during impending refactor*/
 
 static const char* ENVIRONMENT_VAR_EDGEHUB_CONNECTIONSTRING = "EdgeHubConnectionString";
@@ -276,7 +272,6 @@ IOTHUB_CLIENT_EDGE_HANDLE IoTHubClientCore_LL_GetEdgeHandle(IOTHUB_CLIENT_CORE_L
 
     return result;
 }
-#endif /* USE_EDGE_MODULES */
 
 static void setTransportProtocol(IOTHUB_CLIENT_CORE_LL_HANDLE_DATA* handleData, TRANSPORT_PROVIDER* protocol)
 {
@@ -350,7 +345,7 @@ static int create_edge_handle(IOTHUB_CLIENT_CORE_LL_HANDLE_DATA* handle_data, co
     int result;
     (void)config;
     (void)module_id;
-#ifdef USE_EDGE_MODULES
+
     /* There is no way to currently distinguish a regular module from a edge module, so this handle is created regardless of if appropriate.
     However, as a gateway hostname is required in order to create an Edge Handle, we need to at least make sure that exists
     in order to prevent errors.
@@ -377,10 +372,6 @@ static int create_edge_handle(IOTHUB_CLIENT_CORE_LL_HANDLE_DATA* handle_data, co
         result = 0;
     }
 
-#else
-    (void)handle_data;
-    result = 0;
-#endif
     return result;
 }
 
@@ -455,9 +446,8 @@ static void destroy_blob_upload_module(IOTHUB_CLIENT_CORE_LL_HANDLE_DATA* handle
 static void destroy_module_method_module(IOTHUB_CLIENT_CORE_LL_HANDLE_DATA* handle_data)
 {
     (void)handle_data;
-#ifdef USE_EDGE_MODULES
+
     IoTHubClient_EdgeHandle_Destroy(handle_data->methodHandle);
-#endif
 }
 
 static bool invoke_message_callback(IOTHUB_CLIENT_CORE_LL_HANDLE_DATA* handleData, IOTHUB_MESSAGE_HANDLE messageHandle)
@@ -1693,7 +1683,7 @@ IOTHUB_CLIENT_CORE_LL_HANDLE IoTHubClientCore_LL_Create(const IOTHUB_CLIENT_CONF
     return IoTHubClientCore_LL_CreateImpl(config, NULL, false);
 }
 
-#ifdef USE_EDGE_MODULES
+
 IOTHUB_CLIENT_CORE_LL_HANDLE IoTHubClientCore_LL_CreateFromEnvironment(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol)
 {
     IOTHUB_CLIENT_CORE_LL_HANDLE_DATA* result;
@@ -1762,7 +1752,6 @@ IOTHUB_CLIENT_CORE_LL_HANDLE IoTHubClientCore_LL_CreateFromEnvironment(IOTHUB_CL
     free(edge_environment_variables.iothub_buffer);
     return result;
 }
-#endif
 
 
 IOTHUB_CLIENT_CORE_LL_HANDLE IoTHubClientCore_LL_CreateWithTransport(const IOTHUB_CLIENT_DEVICE_CONFIG * config)
@@ -1844,9 +1833,9 @@ void IoTHubClientCore_LL_Destroy(IOTHUB_CLIENT_CORE_LL_HANDLE iotHubClientHandle
 #ifndef DONT_USE_UPLOADTOBLOB
         IoTHubClient_LL_UploadToBlob_Destroy(handleData->uploadToBlobHandle);
 #endif
-#ifdef USE_EDGE_MODULES
+
         IoTHubClient_EdgeHandle_Destroy(handleData->methodHandle);
-#endif
+
         STRING_delete(handleData->product_info);
         STRING_delete(handleData->model_id);
         free(handleData);
@@ -3309,7 +3298,7 @@ int IoTHubClientCore_LL_GetTransportCallbacks(TRANSPORT_CALLBACKS_INFO* transpor
     return result;
 }
 
-#ifdef USE_EDGE_MODULES
+
 /* These should be replaced during iothub_client refactor */
 IOTHUB_CLIENT_RESULT IoTHubClientCore_LL_GenericMethodInvoke(IOTHUB_CLIENT_CORE_LL_HANDLE iotHubClientHandle, const char* deviceId, const char* moduleId, const char* methodName, const char* methodPayload, unsigned int timeout, int* responseStatus, unsigned char** responsePayload, size_t* responsePayloadSize)
 {
@@ -3332,6 +3321,5 @@ IOTHUB_CLIENT_RESULT IoTHubClientCore_LL_GenericMethodInvoke(IOTHUB_CLIENT_CORE_
     }
     return result;
 }
-#endif
 
 /*end*/

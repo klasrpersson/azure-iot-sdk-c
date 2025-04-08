@@ -70,7 +70,6 @@ if(NOT dont_use_uploadtoblob)
     )
 endif()
 
-if (use_edge_modules)
     set(iothub_client_c_files
         ${iothub_client_c_files}
         ${CMAKE_CURRENT_LIST_DIR}/src/iothub_client_edge.c
@@ -80,7 +79,6 @@ if (use_edge_modules)
         ${iothub_client_h_files}
         ${CMAKE_CURRENT_LIST_DIR}/inc/internal/iothub_client_edge.h
     )
-endif()
 
 #this is around for back compat only
 if (${use_prov_client_core})
@@ -398,9 +396,7 @@ if (${build_as_dynamic})
         set(iothub_def_file ${iothub_def_file} ${CMAKE_CURRENT_LIST_DIR}/src/iothub_transport_mqtt.def)
     endif()
 
-    if (${use_edge_modules})
         set(iothub_def_file ${iothub_def_file} ${CMAKE_CURRENT_LIST_DIR}/src/iothub_edge_modules.def)
-    endif()
 
     add_library(iothub_client_dll SHARED
         ${iothub_client_c_files}

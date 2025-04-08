@@ -60,7 +60,7 @@ void* my_gballoc_realloc(void* ptr, size_t size)
 #include "internal/iothub_client_ll_uploadtoblob.h"
 #endif // DONT_USE_UPLOADTOBLOB
 
-#ifdef USE_EDGE_MODULES
+
 #include "internal/iothub_client_edge.h"
 #include "azure_prov_client/iothub_security_factory.h"
 #endif
@@ -493,7 +493,7 @@ static void my_CONSTBUFFER_DecRef(CONSTBUFFER_HANDLE constbufferHandle)
     my_gballoc_free(constbufferHandle);
 }
 
-#ifdef USE_EDGE_MODULES
+
 static IOTHUB_CLIENT_EDGE_HANDLE my_IoTHubModuleClient_LL_MethodHandle_Create(const IOTHUB_CLIENT_CONFIG* config, IOTHUB_AUTHORIZATION_HANDLE authorizationHandle, const char* moduleId)
 {
     (void)config;
@@ -506,7 +506,6 @@ static void my_IoTHubModuleClient_LL_MethodHandle_Destroy(IOTHUB_CLIENT_EDGE_HAN
 {
     my_gballoc_free(handle);
 }
-#endif
 
 static TRANSPORT_LL_HANDLE my_FAKE_IoTHubTransport_Create(const IOTHUBTRANSPORT_CONFIG* config, TRANSPORT_CALLBACKS_INFO* cb_info, void* ctx)
 {
@@ -813,10 +812,10 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_UMOCK_ALIAS_TYPE(IOTHUB_CLIENT_FILE_UPLOAD_GET_DATA_CALLBACK_EX, void*);
 #endif // DONT_USE_UPLOADTOBLOB
 
-#ifdef USE_EDGE_MODULES
+
     REGISTER_UMOCK_ALIAS_TYPE(IOTHUB_CLIENT_EDGE_HANDLE, void*);
     REGISTER_UMOCK_ALIAS_TYPE(IOTHUB_SECURITY_TYPE, int);
-#endif // USE_EDGE_MODULES
+
 
     REGISTER_GLOBAL_MOCK_RETURN(IoTHubClient_GetVersionString, "version 1.0");
 
@@ -874,7 +873,7 @@ TEST_SUITE_INITIALIZE(suite_init)
     
 #endif
 
-#ifdef USE_EDGE_MODULES
+
     REGISTER_GLOBAL_MOCK_HOOK(IoTHubClient_EdgeHandle_Destroy, my_IoTHubModuleClient_LL_MethodHandle_Destroy);
     REGISTER_GLOBAL_MOCK_HOOK(IoTHubClient_EdgeHandle_Create, my_IoTHubModuleClient_LL_MethodHandle_Create);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClient_EdgeHandle_Create, NULL);
@@ -882,7 +881,6 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClient_Edge_ModuleMethodInvoke, IOTHUB_CLIENT_ERROR);
     REGISTER_GLOBAL_MOCK_RETURN(iothub_security_init, 0);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(iothub_security_init, 1);
-#endif
 
     REGISTER_GLOBAL_MOCK_RETURN(environment_get_variable, ENVVARIABLE);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(environment_get_variable, NULL);
@@ -963,10 +961,9 @@ TEST_SUITE_INITIALIZE(suite_init)
     REGISTER_GLOBAL_MOCK_HOOK(IoTHubClient_Auth_Create, my_IoTHubClient_Auth_Create);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClient_Auth_Create, NULL);
 
-#ifdef USE_EDGE_MODULES
+
     REGISTER_GLOBAL_MOCK_HOOK(IoTHubClient_Auth_Get_TrustBundle, my_IoTHubClient_Auth_Get_TrustBundle);
     REGISTER_GLOBAL_MOCK_FAIL_RETURN(IoTHubClient_Auth_Get_TrustBundle, NULL);
-#endif
 
     REGISTER_GLOBAL_MOCK_HOOK(IoTHubClient_Auth_Destroy, my_IoTHubClient_Auth_Destroy);
 
@@ -1053,14 +1050,12 @@ static void setup_IoTHubClientCore_LL_create_mocks(bool use_device_config, bool 
     }
 #endif /*DONT_USE_UPLOADTOBLOB*/
 
-#ifdef USE_EDGE_MODULES
+
     if (is_edge_module)
     {
         STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Create(IGNORED_PTR_ARG, IGNORED_PTR_ARG, IGNORED_PTR_ARG));
     }
-#else
-        (void)is_edge_module;
-#endif /*USE_EDGE_MODULES*/
+
 
     STRICT_EXPECTED_CALL(tickcounter_create());
 
@@ -1911,9 +1906,9 @@ TEST_FUNCTION(IoTHubClientCore_LL_CreateWithTransport_create_tickcounter_fails_s
 #ifndef DONT_USE_UPLOADTOBLOB
     STRICT_EXPECTED_CALL(IoTHubClient_LL_UploadToBlob_Destroy(IGNORED_PTR_ARG));
 #endif /*DONT_USE_UPLOADTOBLOB*/
-#ifdef USE_EDGE_MODULES
+
     STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Destroy(IGNORED_PTR_ARG));
-#endif /*USE_EDGE_MODULES*/
+
     STRICT_EXPECTED_CALL(IoTHubClient_Auth_Destroy(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(gballoc_free(IGNORED_PTR_ARG));
 
@@ -1975,9 +1970,9 @@ TEST_FUNCTION(IoTHubClientCore_LL_CreateWithTransport_register_fails_shared_tran
 #ifndef DONT_USE_UPLOADTOBLOB
     STRICT_EXPECTED_CALL(IoTHubClient_LL_UploadToBlob_Destroy(IGNORED_PTR_ARG));
 #endif /*DONT_USE_UPLOADTOBLOB*/
-#ifdef USE_EDGE_MODULES
+
     STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Destroy(IGNORED_PTR_ARG));
-#endif /*USE_EDGE_MODULES*/
+
     STRICT_EXPECTED_CALL(tickcounter_destroy(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(free(IGNORED_PTR_ARG));
@@ -2042,9 +2037,9 @@ TEST_FUNCTION(IoTHubClientCore_LL_CreateWithTransport_set_retry_policy_fails_sha
 #ifndef DONT_USE_UPLOADTOBLOB
     STRICT_EXPECTED_CALL(IoTHubClient_LL_UploadToBlob_Destroy(IGNORED_PTR_ARG));
 #endif /*DONT_USE_UPLOADTOBLOB*/
-#ifdef USE_EDGE_MODULES
+
     STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Destroy(IGNORED_PTR_ARG));
-#endif /*USE_EDGE_MODULES*/
+
     STRICT_EXPECTED_CALL(tickcounter_destroy(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(free(IGNORED_PTR_ARG));
@@ -2095,9 +2090,8 @@ TEST_FUNCTION(IoTHubClientCore_LL_Destroys_the_underlying_transport_succeeds)
 #ifndef DONT_USE_UPLOADTOBLOB
     STRICT_EXPECTED_CALL(IoTHubClient_LL_UploadToBlob_Destroy(IGNORED_PTR_ARG));
 #endif
-#ifdef USE_EDGE_MODULES
+
     STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Destroy(IGNORED_PTR_ARG));
-#endif
 
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
@@ -2131,9 +2125,8 @@ TEST_FUNCTION(IoTHubClientCore_LL_Destroys_unregisters_but_does_not_destroy_tran
 #ifndef DONT_USE_UPLOADTOBLOB
     STRICT_EXPECTED_CALL(IoTHubClient_LL_UploadToBlob_Destroy(IGNORED_PTR_ARG));
 #endif
-#ifdef USE_EDGE_MODULES
+
     STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Destroy(IGNORED_PTR_ARG));
-#endif
 
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
@@ -2241,9 +2234,8 @@ TEST_FUNCTION(IoTHubClientCore_LL_Destroy_after_sendEvent_succeeds)
 #ifndef DONT_USE_UPLOADTOBLOB
     STRICT_EXPECTED_CALL(IoTHubClient_LL_UploadToBlob_Destroy(IGNORED_PTR_ARG));
 #endif
-#ifdef USE_EDGE_MODULES
+
     STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Destroy(IGNORED_PTR_ARG));
-#endif
 
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
@@ -4412,9 +4404,8 @@ TEST_FUNCTION(IoTHubClientCore_LL_Destroy_with_pending_reported_state_succeeds)
 #ifndef DONT_USE_UPLOADTOBLOB
     STRICT_EXPECTED_CALL(IoTHubClient_LL_UploadToBlob_Destroy(IGNORED_PTR_ARG));
 #endif
-#ifdef USE_EDGE_MODULES
+
     STRICT_EXPECTED_CALL(IoTHubClient_EdgeHandle_Destroy(IGNORED_PTR_ARG));
-#endif
 
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
     STRICT_EXPECTED_CALL(STRING_delete(IGNORED_PTR_ARG));
@@ -7005,7 +6996,7 @@ TEST_FUNCTION(IoTHubClientCore_LL_CommandComplete_payload_NULL_succeed)
     IoTHubClientCore_LL_Destroy(h);
 }
 
-#ifdef USE_EDGE_MODULES
+
 
 static void set_expected_calls_for_IoTHubClientCore_LL_CreateFromEnvironment_for_EdgeHsm()
 {
@@ -7173,7 +7164,7 @@ TEST_FUNCTION(IoTHubClientCore_LL_CreateFromEnvironment_set_connection_string_an
 }
 
 
-#endif // USE_EDGE_MODULES
+
 
 
 /* Partial refactoring has rendered the below tests invalid - These need to be restored in some capacity once iothub_client refactor is complete */

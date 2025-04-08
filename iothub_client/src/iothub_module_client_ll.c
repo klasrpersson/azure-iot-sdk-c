@@ -26,16 +26,16 @@
 #include "internal/iothub_client_ll_uploadtoblob.h"
 #endif
 
-#ifdef USE_EDGE_MODULES
+
 #include "internal/iothub_client_edge.h"
-#endif
+
 
 typedef struct IOTHUB_MODULE_CLIENT_LL_HANDLE_DATA_TAG
 {
     IOTHUB_CLIENT_CORE_LL_HANDLE coreHandle;
-#ifdef USE_EDGE_MODULES
+
     IOTHUB_CLIENT_EDGE_HANDLE methodHandle;
-#endif
+
 } IOTHUB_MODULE_CLIENT_LL_HANDLE_DATA;
 
 
@@ -306,7 +306,7 @@ IOTHUB_CLIENT_RESULT IoTHubModuleClient_LL_SendMessageDisposition(IOTHUB_MODULE_
     return result;
 }
 
-#ifdef USE_EDGE_MODULES
+
 
 IOTHUB_MODULE_CLIENT_LL_HANDLE IoTHubModuleClient_LL_CreateFromEnvironment(IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol)
 {
@@ -368,7 +368,7 @@ IOTHUB_CLIENT_RESULT IoTHubModuleClient_LL_ModuleMethodInvoke(IOTHUB_MODULE_CLIE
     }
     return result;
 }
-#endif /*USE_EDGE_MODULES*/
+
 
 IOTHUB_CLIENT_RESULT IoTHubModuleClient_LL_SendTelemetryAsync(IOTHUB_MODULE_CLIENT_LL_HANDLE iotHubModuleClientHandle,  IOTHUB_MESSAGE_HANDLE telemetryMessageHandle, IOTHUB_CLIENT_TELEMETRY_CALLBACK telemetryConfirmationCallback, void* userContextCallback)
 {

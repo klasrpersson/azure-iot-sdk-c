@@ -50,9 +50,8 @@ if(NOT ${dont_use_uploadtoblob} AND NOT ${use_wolfssl})
     add_e2etest_directory(iothubclient_uploadtoblob_e2e)
     add_unittest_directory(blob_ut)
 endif()
-if (${use_edge_modules})
+
     add_unittest_directory(iothubclient_edge_ut)
-endif()
 
 add_unittest_directory(iothubclient_ut)
 add_unittest_directory(iothubclientcore_ut)

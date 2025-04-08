@@ -536,8 +536,6 @@ const char* IoTHubClient_Auth_Get_DeviceKey(IOTHUB_AUTHORIZATION_HANDLE handle)
     return result;
 }
 
-#ifdef USE_EDGE_MODULES
-
 // For debugging C modules, the environment can set the environment variable 'EdgeModuleCACertificateFile' to provide
 // trusted certificates.  We'd otherwise usually get these from trusted Edge service, but this complicates debugging experience.
 // EdgeModuleCACertificateFile and the related EdgeHubConnectionString can be set either manually or by tooling (e.g. VS Code).
@@ -619,7 +617,6 @@ char* IoTHubClient_Auth_Get_TrustBundle(IOTHUB_AUTHORIZATION_HANDLE handle, cons
     }
     return result;
 }
-#endif
 
 int IoTHubClient_Auth_Set_SasToken_Expiry(IOTHUB_AUTHORIZATION_HANDLE handle, uint64_t expiry_time_seconds)
 {

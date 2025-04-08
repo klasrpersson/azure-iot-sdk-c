@@ -292,7 +292,6 @@ extern "C"
     */
     MOCKABLE_FUNCTION(, IOTHUB_CLIENT_RESULT, IoTHubModuleClient_SetInputMessageCallback, IOTHUB_MODULE_CLIENT_HANDLE, iotHubModuleClientHandle, const char*, inputName, IOTHUB_CLIENT_MESSAGE_CALLBACK_ASYNC, eventHandlerCallback, void*, userContextCallback);
 
-#ifdef USE_EDGE_MODULES
     /**
     * @brief    This API creates a module handle based on environment variables set in the Edge runtime.
     *           NOTE: It is *ONLY* valid when the code is running in a container initiated by Edge.
@@ -347,7 +346,6 @@ extern "C"
     */
     MOCKABLE_FUNCTION(, IOTHUB_CLIENT_RESULT, IoTHubModuleClient_ModuleMethodInvokeAsync, IOTHUB_MODULE_CLIENT_HANDLE, iotHubModuleClientHandle, const char*, deviceId, const char*, moduleId, const char*, methodName, const char*, methodPayload, unsigned int, timeout, IOTHUB_METHOD_INVOKE_CALLBACK, methodInvokeCallback, void*, context);
 
-#endif /*USE_EDGE_MODULES*/
 
     /**
     * @brief    This API sends an acknowledgement to Azure IoT Hub that a cloud-to-device message has been received and frees resources associated with the message. 
