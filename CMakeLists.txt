@@ -62,7 +62,7 @@ option(build_as_dynamic "build the IoT SDK libaries as dynamic"  OFF)
 # Turn on/off IoT features
 option(use_prov_client "Enable provisioning client" ON)
 option(use_tpm_simulator "tpm simulator type of hsm used with the provisioning client" OFF)
-option(use_edge_modules "Enable support for running modules against Azure IoT Edge" OFF)
+option(use_edge_modules "Enable support for running modules against Azure IoT Edge" ON)
 option(use_custom_heap "use externally defined heap functions instead of the malloc family" OFF)
 option(build_service_client "controls whether the iothub_service_client is built or not" ON)
 option(build_provisioning_service_client "controls whether the provisioning_service_client is built or not" ON)
